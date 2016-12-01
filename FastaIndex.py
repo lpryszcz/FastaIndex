@@ -297,6 +297,45 @@ class FastaIndex(object):
                     break
         return sorted_contigs[:contigi]
 
+    def get_N_and_L(self, genomeFrac=0.5, return_L=False, genomeSize=None):
+        """Return N50 (and L50 if return_L) of given FastA.
+
+        - genomeFrac - calculate N (and L) for this fraction of genome [0.5 for N50 & L50]
+        - return NL  - return N50 (contig size) and L50 (number of contigs) [False]
+        - genomeSize - if provided, it will use this size of the genome
+                       instead of size of give assembly
+        """
+        if not genomeSize:
+            genomeSize = self.genomeSize
+        # parse contigs by descending size
+        totsize = 0
+        for i, x in enumerate(sorted(self.id2stats.itervalues(), reverse=True), 1):
+            size = x[0]
+            totsize += size
+            if totsize >= genomeFrac*genomeSize:
+                break
+        # return N & L
+        if return_L:
+            return size, i
+        # return just N
+        return size
+        
+    def N90(self):
+        """Return N90"""
+        return self.get_N_and_L(0.9)
+
+    def L90(self):
+        """Return N90"""
+        return self.get_N_and_L(0.9, return_L=True)[1]
+
+    def N50(self):
+        """Return N90"""
+        return self.get_N_and_L()
+
+    def L50(self):
+        """Return N90"""
+        return self.get_N_and_L(return_L=True)[1]
+
 def main():
     import argparse
     usage	 = "%(prog)s -i " #usage=usage, 
@@ -312,6 +351,10 @@ def main():
                         help="output stream	 [stdout]")
     parser.add_argument("-r", "--regions", nargs='*', default=[], 
                         help="contig or contig region to output (returns reverse complement if end larger than start)")
+    parser.add_argument("-N", default=0, type=int, 
+                        help="calculate NXX and exit ie N50")
+    parser.add_argument("-L", default=0, type=int, 
+                        help="calculate LXX and exit ie L50")
 
     o = parser.parse_args()
     if o.verbose:
@@ -320,6 +363,12 @@ def main():
     # init faidx
     faidx = FastaIndex(o.fasta, o.verbose)
 
+    # report N & L
+    if o.N:
+        o.out.write("%s\n"%faidx.get_N_and_L(o.N/100.))
+    if o.L:
+        o.out.write("%s\n"%faidx.get_N_and_L(o.L/100., return_L=True)[1])
+        
     # report regions
     for region in o.regions:
         o.out.write(faidx.get_fasta(region))
