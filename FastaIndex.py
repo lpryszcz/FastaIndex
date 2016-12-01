@@ -106,7 +106,7 @@ class FastaIndex(object):
                 if l.startswith(">"):
                     self.__process_seqentry(out, header, seq, offset, pi)
                     # mark that there is whitespace in headers
-                    if len(l[:-1].slit())>1:
+                    if len(l[:-1].split())>1:
                         self.whitespaces_in_headers = True
                     header = l
                     offset = self.handle.tell() 
