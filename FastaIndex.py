@@ -74,6 +74,9 @@ class FastaIndex(object):
         self.base2rc= {"A": "T", "T": "A", "C": "G", "G": "C",
                        "a": "t", "t": "a", "c": "g", "g": "c",
                        "N": "N", "n": "n"}
+        # basecounts
+        self.basecounts = map(sum, zip(*[stats[-4:] for stats in self.id2stats.itervalues()]))
+        self.Ns = self.genomeSize - sum(self.basecounts)
 
     def __process_seqentry(self, out, header, seq, offset, pi):
         """Write stats to file and report any issues"""
@@ -337,28 +340,23 @@ class FastaIndex(object):
         """Return N90"""
         return self.get_N_and_L(return_L=True)[1]
 
-    def GCandNs(self):
+    def GC(self):
         """Return GC and number of Ns"""
-        basecounts = map(sum, zip(*[stats[-4:] for stats in self.id2stats.itervalues()]))
         # catch errors ie. empty files
         #if len(basecounts) != 4:
         #    return "%s\t[ERROR] Couldn't read file content\n"%handle.name
-        (A, C, G, T) = basecounts
-        GC = 100.0*(G + C) / sum(basecounts)
-        nonACGT = self.genomeSize - sum(basecounts)
-        return GC, nonACGT
+        (A, C, G, T) = self.basecounts
+        GC = 100.0*(G + C) / sum(self.basecounts)
+        return GC
 
     def stats(self):
         """Return FastA statistics aka fasta_stats"""
-        # report stats
-        contigs = len(self.id2stats)
-        lengths = [stats[0] for stats in self.id2stats.itervalues()]
-        lengths.sort(reverse=True) # needed for longest
-        lengths1000 = [l for l in lengths if l>=1000]
+        longest = max(stats[0] for stats in self.id2stats.itervalues())
+        lengths1000 = [x[0] for x in self.id2stats.itervalues() if x[0]>=1000]
         contigs1000 = len(lengths1000)
-        GC, nonACGT = self.GCandNs()
         _line = '%s\t%s\t%s\t%.3f\t%s\t%s\t%s\t%s\t%s\t%s\n'
-        line = _line % (self.fasta, contigs, self.genomeSize, GC, contigs1000, sum(lengths1000), self.N50(), self.N90(), nonACGT, lengths[0])
+        line = _line % (self.fasta, len(self), self.genomeSize, self.GC(), contigs1000, sum(lengths1000),
+                        self.N50(), self.N90(), self.Ns, longest)
         return line
 
 def main():

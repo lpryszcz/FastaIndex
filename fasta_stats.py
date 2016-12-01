@@ -38,7 +38,7 @@ def main():
             sys.stderr.write("[WARNING] No such file: %s\n"%fname)
             continue
         faidx = FastaIndex(fname)
-        o.out.write(faidx.get_stats())
+        o.out.write(faidx.stats())
 	
 if __name__=='__main__': 
     t0 = datetime.now()
