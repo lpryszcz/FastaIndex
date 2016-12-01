@@ -348,7 +348,7 @@ class FastaIndex(object):
         nonACGT = self.genomeSize - sum(basecounts)
         return GC, nonACGT
 
-    def get_stats(self):
+    def stats(self):
         """Return FastA statistics aka fasta_stats"""
         # report stats
         contigs = len(self.id2stats)
@@ -397,7 +397,7 @@ def main():
         o.out.write("%s\n"%faidx.get_N_and_L(o.L/100., return_L=True)[1])
     # fasta_stats
     if o.stats:
-        o.out.write(faidx.get_stats())
+        o.out.write(faidx.stats())
         
     # report regions
     for region in o.regions:
