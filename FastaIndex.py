@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-desc="""FastA index (.fai) handler compatible with samtools faidx (http://www.htslib.org/doc/faidx.html)
+desc="""FastA index (.fai) handler compatible with samtools faidx (http://www.htslib.org/doc/faidx.html).
+.fai is extended with 4 columns storing counts for A, C, G & T for each sequence.
 
 CHANGELOG:
 v0.11c
@@ -336,6 +337,30 @@ class FastaIndex(object):
         """Return N90"""
         return self.get_N_and_L(return_L=True)[1]
 
+    def GCandNs(self):
+        """Return GC and number of Ns"""
+        basecounts = map(sum, zip(*[stats[-4:] for stats in self.id2stats.itervalues()]))
+        # catch errors ie. empty files
+        #if len(basecounts) != 4:
+        #    return "%s\t[ERROR] Couldn't read file content\n"%handle.name
+        (A, C, G, T) = basecounts
+        GC = 100.0*(G + C) / sum(basecounts)
+        nonACGT = self.genomeSize - sum(basecounts)
+        return GC, nonACGT
+
+    def get_stats(self):
+        """Return FastA statistics aka fasta_stats"""
+        # report stats
+        contigs = len(self.id2stats)
+        lengths = [stats[0] for stats in self.id2stats.itervalues()]
+        lengths.sort(reverse=True) # needed for longest
+        lengths1000 = [l for l in lengths if l>=1000]
+        contigs1000 = len(lengths1000)
+        GC, nonACGT = self.GCandNs()
+        _line = '%s\t%s\t%s\t%.3f\t%s\t%s\t%s\t%s\t%s\t%s\n'
+        line = _line % (self.fasta, contigs, self.genomeSize, GC, contigs1000, sum(lengths1000), self.N50(), self.N90(), nonACGT, lengths[0])
+        return line
+
 def main():
     import argparse
     usage	 = "%(prog)s -i " #usage=usage, 
@@ -355,6 +380,8 @@ def main():
                         help="calculate NXX and exit ie N50")
     parser.add_argument("-L", default=0, type=int, 
                         help="calculate LXX and exit ie L50")
+    parser.add_argument("-S", "--stats", default=False, action="store_true",
+                        help="return FastA stats aka fasta_stats")
 
     o = parser.parse_args()
     if o.verbose:
@@ -368,6 +395,9 @@ def main():
         o.out.write("%s\n"%faidx.get_N_and_L(o.N/100.))
     if o.L:
         o.out.write("%s\n"%faidx.get_N_and_L(o.L/100., return_L=True)[1])
+    # fasta_stats
+    if o.stats:
+        o.out.write(faidx.get_stats())
         
     # report regions
     for region in o.regions:
