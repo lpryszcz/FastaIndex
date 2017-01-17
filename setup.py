@@ -18,7 +18,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(name='FastaIndex',
-      version='0.11rc3',
+      version='0.11rc4',
       description='',
       long_description=long_description,
       author='Leszek Pryszcz',
