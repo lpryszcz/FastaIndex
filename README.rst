@@ -30,6 +30,7 @@ Parameters
 Examples
 ~~~~~~~~
 
+  .. code-block:: bash
   # retrieve sequence of scaffold00001 starting at 100 and ending at 200 base (0-based)
   FastaIndex -i contigs.fa -r 'scaffold00001:100-200'
 
@@ -43,9 +44,11 @@ Examples
   FastaIndex -i contigs.fa -S
   # or
   fasta_stats -i contigs.fa
-
+  ::
+     
 Installation
 ------------
 
+  .. code-block:: bash
   sudo pip install -U FastaIndex
-
+  ::
