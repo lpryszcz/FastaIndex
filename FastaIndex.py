@@ -360,7 +360,7 @@ def main():
     parser.add_argument("-o", "--out",	 default=sys.stdout, type=argparse.FileType('w'), 
                         help="output stream	 [stdout]")
     parser.add_argument("-r", "--regions", nargs='*', default=[], 
-                        help="contig or contig region to output (returns reverse complement if end larger than start)")
+                        help="contig(s) or contig region(s) to output (returns reverse complement if end larger than start)")
     parser.add_argument("-N", default=0, type=int, 
                         help="calculate NXX and exit ie N50")
     parser.add_argument("-L", default=0, type=int, 

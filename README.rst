@@ -14,20 +14,18 @@ Dependencies
 Parameters
 ~~~~~~~~~~
 
-.. code-block:: bash
-
   -h, --help            show this help message and exit
   --version             show program's version number and exit
   -v, --verbose         verbose
   -i FASTA, --fasta FASTA
                         FASTA file(s)
   -o OUT, --out OUT     output stream	 [stdout]
-  -r [REGIONS [REGIONS ...]], --regions [REGIONS [REGIONS ...]]
-                        contig or contig region to output (returns reverse complement if end larger than start)
+  -r REGIONS, --regions REGIONS
+                        contig(s) or contig region(s) to output (returns reverse complement if end larger than start)
   -N N                  calculate NXX and exit ie N50
   -L L                  calculate LXX and exit ie L50
   -S, --stats           return FastA stats aka fasta_stats
-::
+
 
 Examples
 ~~~~~~~~
