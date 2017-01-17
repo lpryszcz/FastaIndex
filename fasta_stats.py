@@ -27,9 +27,13 @@ def main():
                         help="output stream	 [stdout]")
 
     o = parser.parse_args()
+    # print help if no parameters
+    if len(sys.argv)==1:
+        parser.print_help()
+        sys.exit(1)        
     if o.verbose:
         sys.stderr.write("Options: %s\n"%str(o))
-
+    
     #header
     header = '#fname\tcontigs\tbases\tGC [%]\tcontigs >1kb\tbases in contigs >1kb\tN50\tN90\tNs\tlongest\n'
     o.out.write(header)
