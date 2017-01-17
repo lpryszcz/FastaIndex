@@ -30,25 +30,26 @@ Parameters
 Examples
 ~~~~~~~~
 
-  .. code-block:: bash
-  # retrieve sequence of scaffold00001 starting at 100 and ending at 200 base (0-based)
-  FastaIndex -i contigs.fa -r 'scaffold00001:100-200'
+.. code-block:: bash
 
-  # retrieve reverse complement of the same region
-  FastaIndex -i contigs.fa -r 'scaffold00001:100-200'
+   # retrieve sequence of scaffold00001 starting at 100 and ending at 200 base (0-based)
+   FastaIndex -i contigs.fa -r 'scaffold00001:100-200'
+   
+   # retrieve reverse complement of the same region
+   FastaIndex -i contigs.fa -r 'scaffold00001:100-200'
 
-  # calculate N50 of FastA file
-  FastaIndex -i contigs.fa -N50
+   # calculate N50 of FastA file
+   FastaIndex -i contigs.fa -N50
 
-  # more statistics of FastA file
-  FastaIndex -i contigs.fa -S
-  # or
-  fasta_stats -i contigs.fa
-  ::
+   # more statistics of FastA file
+   FastaIndex -i contigs.fa -S
+   # or
+   fasta_stats -i contigs.fa
+::
      
 Installation
 ------------
 
-  .. code-block:: bash
-  sudo pip install -U FastaIndex
-  ::
+.. code-block:: bash
+   sudo pip install -U FastaIndex
+::
