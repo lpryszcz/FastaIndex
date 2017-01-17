@@ -32,7 +32,10 @@ FastaIndex -i contigs.fa -r 'scaffold00001:100-200'
 # retrieve reverse complement of the same region
 FastaIndex -i contigs.fa -r 'scaffold00001:100-200'
 
-# statistics of FastA file
+# calculate N50 of FastA file
+FastaIndex -i contigs.fa -N50
+
+# more statistics of FastA file
 FastaIndex -i contigs.fa -S
 # or
 fasta_stats -i contigs.fa
