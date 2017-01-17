@@ -51,5 +51,6 @@ Installation
 ------------
 
 .. code-block:: bash
+                
    sudo pip install -U FastaIndex
 ::
