@@ -1,7 +1,7 @@
 FastaIndex
 ==========
 
-FastA index (.fai) handler compatible with samtools faidx (http://www.htslib.org/doc/faidx.html).
+FastA index (.fai) handler compatible with `samtools faidx <http://www.htslib.org/doc/faidx.html>`_.
 .fai is extended with 4 columns storing counts for A, C, G & T for each sequence.
 
 Usage
@@ -36,7 +36,7 @@ Examples
    FastaIndex -i contigs.fa -r 'scaffold00001:100-200'
    
    # retrieve reverse complement of the same region
-   FastaIndex -i contigs.fa -r 'scaffold00001:100-200'
+   FastaIndex -i contigs.fa -r 'scaffold00001:200-100'
 
    # calculate N50 of FastA file
    FastaIndex -i contigs.fa -N50
@@ -45,7 +45,6 @@ Examples
    FastaIndex -i contigs.fa -S
    # or
    fasta_stats -i contigs.fa
-::
      
 Installation
 ------------
@@ -53,4 +52,4 @@ Installation
 .. code-block:: bash
                 
    sudo pip install -U FastaIndex
-::
+
