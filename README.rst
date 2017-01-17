@@ -14,6 +14,8 @@ Dependencies
 Parameters
 ~~~~~~~~~~
 
+.. code-block:: bash
+
   -h, --help            show this help message and exit
   --version             show program's version number and exit
   -v, --verbose         verbose
@@ -25,7 +27,7 @@ Parameters
   -N N                  calculate NXX and exit ie N50
   -L L                  calculate LXX and exit ie L50
   -S, --stats           return FastA stats aka fasta_stats
-
+::
 
 Examples
 ~~~~~~~~
