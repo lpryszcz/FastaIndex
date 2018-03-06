@@ -24,7 +24,7 @@ setup(name='FastaIndex',
       author='Leszek Pryszcz',
       author_email='l.p.pryszcz+distutils@gmail.com',
       url='https://github.com/lpryszcz/FastaIndex',
-      license='GPLv2',
+      license='GPLv3',
       
       py_modules=['FastaIndex', "fasta_stats"],
 
